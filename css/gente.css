@@ -1,0 +1,127 @@
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .titulo-gente {
+        height: 120px;
+        width: 88%;
+        display: flex;
+        align-items: center;
+
+        h1 {
+            font-family: fantasy;
+            font-size: 120px;
+            color: brown;
+        }
+    }
+
+    .buscador {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        form {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+
+            label {
+                font-family: fantasy;
+                font-size: 18px;
+                color: brown;
+
+                i {
+                    cursor: pointer;
+                }
+            }
+
+            input {
+                width: 200px;
+                background-color: transparent;
+                width: 200px;
+                height: 35px;
+                border: solid brown 1.50px;
+                border-radius: 9px;
+                text-align: center;
+            }
+
+            .btnADD {
+                width: 35px;
+                height: 35px;
+                cursor: pointer;
+
+                i {
+                    font-size: 30px;
+                    color: brown;
+                    transition: 0.5s;
+                }
+
+                i:hover {
+                    font-size: 25.5px;
+                    color: rgb(255, 255, 255);
+                    transition: 0.5s;
+                }
+
+            }
+
+            .btnHome {
+                width: 35px;
+                height: 35px;
+                cursor: pointer;
+
+                a {
+                    width: 100%;
+                    height: 100%;
+                    text-decoration: none;
+
+                    i {
+                        font-size: 28px;
+                        color: brown;
+                        transition: 0.5s;
+                    }
+
+                    i:hover {
+                        font-size: 25.5px;
+                        color: rgb(255, 255, 255);
+                        transition: 0.5s;
+                    }
+
+                }
+            }
+
+        }
+    }
+
+}
+
+
+main {
+    .imgMuestras {
+        .pack {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .img {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 50%;
+                    height: 60%;
+                }
+            }
+        }
+    }
+}
