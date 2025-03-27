@@ -98,7 +98,7 @@
                 <div>
                     <p>Ckliquea tu favorita</p>
                 </div>
-                <div><small>text</small></div>
+                <div><h4>PERO ANTES CREA TU CUENTA PARA PODER RESERVAR TUS ZAPATILLAS</h4></div>
             </div>
             <div class="img">
                 <div><img src="img/InShot_20250113_122011194.png" width="259px" alt=""></div>

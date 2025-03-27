@@ -140,8 +140,9 @@ if (!$_SESSION['id'] && !$_SESSION['nombre']) {
                 <div>
                     <h1 style="font-size: 21px;">"Bienvenido/a" " <?php echo $_SESSION['nombre'] ?> "</h1>
                 </div>
-                <div>
+                <div id="mi_pedido">
                     <p>Ckliquea tu favorita</p>
+                    <button class="btn" style="border: solid 2px brown; color: brown;" data-bs-toggle="modal" data-bs-target="#ticketModal">Ver Ticket de Pedido</button>
                 </div>
                 <div><small>text</small></div>
             </div>
@@ -584,6 +585,26 @@ if (!$_SESSION['id'] && !$_SESSION['nombre']) {
         </div>
     </div>
 
+    <!-- Modal for displaying the ticket -->
+    <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketModalLabel">Ticket de Pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="ticketContent">
+                        <!-- Ticket details will be dynamically loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/bootstrap.min.js"></script>
     <script src="js/sweetalert2.js"></script>
     <script src="js/funciones.js"></script>
@@ -611,7 +632,7 @@ if (!$_SESSION['id'] && !$_SESSION['nombre']) {
                     <div class="card-body">
                         <h5 class="card-title">${this.nombre}</h5>
                         <p class="card-text">${this.descripcion}</p>
-                        <p class="card-text"><strong>Precio:</strong> $${this.precio.toFixed(2)}</p>
+                        <p class="card-text"><strong>Precio:</strong> XAF ${this.precio.toFixed(2)}</p>
                         <p class="card-text"><strong>Cantidad:</strong> ${this.stock}</p>
                         <a href="#" class="btn btn-primary" data-id="${this.id}" data-nombre="${this.nombre}" data-precio="${this.precio}">Agregar al Carrito</a>
                     </div>
@@ -705,7 +726,7 @@ if (!$_SESSION['id'] && !$_SESSION['nombre']) {
             <div class="producto-carrito d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
                 <div>
                     <p class="mb-0"><strong>${producto.nombre}</strong></p>
-                    <p class="mb-0">Precio: $${producto.precio.toFixed(2)}</p>
+                    <p class="mb-0">Precio: XAF ${producto.precio.toFixed(2)}</p>
                     <p class="mb-0">Cantidad: ${producto.cantidad}</p>
                 </div>
                 <div class="d-flex align-items-center">
@@ -839,6 +860,57 @@ if (!$_SESSION['id'] && !$_SESSION['nombre']) {
 
         // Cargar productos al cargar la página
         window.onload = cargarProductos;
+
+        // Add event listener to close the carrito
+        document.getElementById('cerrar-carrito').addEventListener('click', function() {
+            document.getElementById('zona-carrito').style.display = 'none';
+        });
+
+        // Toggle carrito visibility when clicking the carrito button
+        document.getElementById('carrito').addEventListener('click', function() {
+            const carritoZona = document.getElementById('zona-carrito');
+            carritoZona.style.display = carritoZona.style.display === 'none' || carritoZona.style.display === '' ? 'block' : 'none';
+        });
+
+        document.querySelector('[data-bs-target="#ticketModal"]').addEventListener('click', function() {
+            const userId = <?php echo $_SESSION['id']; ?>; // Get user ID from PHP session
+            const ticketContent = document.getElementById('ticketContent');
+
+            // Fetch ticket details via XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `php/get_ticket.php?id_usuario=${userId}`, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        if (data.success) {
+                            ticketContent.innerHTML = `
+                                <p><strong>ID Pedido:</strong> ${data.ticket.id_pedido}</p>
+                                <p><strong>Fecha:</strong> ${data.ticket.fecha}</p>
+                                <p><strong>Total:</strong> XAF ${data.ticket.total}</p>
+                                <h6>Productos:</h6>
+                                <ul>
+                                    ${data.ticket.productos.map(producto => `
+                                        <li>${producto.nombre} - Cantidad: ${producto.cantidad} - Subtotal: XAF ${producto.subtotal}</li>
+                                    `).join('')}
+                                </ul>
+                            `;
+                        } else {
+                            ticketContent.innerHTML = `<p class="text-danger">No se pudo cargar el ticket. Inténtalo nuevamente.</p>`;
+                        }
+                    } catch (error) {
+                        console.error('Error parsing ticket response:', error);
+                        ticketContent.innerHTML = `<p class="text-danger">Error al procesar el ticket.</p>`;
+                    }
+                } else {
+                    ticketContent.innerHTML = `<p class="text-danger">Error al cargar el ticket. Código de estado: ${xhr.status}</p>`;
+                }
+            };
+            xhr.onerror = function() {
+                ticketContent.innerHTML = `<p class="text-danger">Error de red al intentar cargar el ticket.</p>`;
+            };
+            xhr.send();
+        });
     </script>
 </body>
 
