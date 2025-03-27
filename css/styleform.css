@@ -619,6 +619,7 @@ nav.activar {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     .imagen {
         width: 225px;
@@ -940,4 +941,306 @@ footer {
     .loguear .res {
         border-left: none;
     }
+}
+
+
+.spinner-overlay {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    z-index: 9999; 
+}
+
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.25rem;
+}
+
+
+.text-blinking {
+    animation: blink 1s step-start infinite;
+    font-size: 1.2rem;
+    color: white;
+}
+
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.logo {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    animation: colorChange 2s linear infinite; /* Animación de cambio de color */
+}
+
+
+@keyframes colorChange {
+    0% {
+        color: white;
+    }
+    50% {
+        color: brown; 
+    }
+    100% {
+        color: white;
+    }
+}
+
+
+/* Contenedor principal del carrito */
+.carrito-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título del carrito */
+.carrito-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de los productos */
+.productos-carrito {
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+/* Producto individual */
+.producto-en-carrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.producto-en-carrito img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.producto-en-carrito p {
+    flex: 1;
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+}
+
+.producto-en-carrito .btn-danger {
+    background-color: #ff4d4d;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.producto-en-carrito .btn-danger:hover {
+    background-color: #ff1a1a;
+}
+
+/* Contenedor para el total */
+.total-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.total-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Botón de finalizar compra */
+.finalizar-compra {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    color: #641a1a;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.finalizar-compra:hover {
+    background-color: #218838;
+}
+
+/* Efectos de animación para los productos */
+@keyframes producto-entrada {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.producto-en-carrito {
+    animation: producto-entrada 0.3s ease-out;
+}
+
+
+/* Animación para el botón del carrito */
+@keyframes carritoAnimacion {
+    0% {
+        transform: scale(1);
+        background-color: #f1f1f1;
+    }
+    50% {
+        transform: scale(1.1);
+        background-color: #ffeb3b; /* Color de fondo temporal al agregar un producto */
+    }
+    100% {
+        transform: scale(1);
+        background-color: #f1f1f1; /* Color original del botón */
+    }
+}
+
+.animar {
+    animation: carritoAnimacion 1s ease-in-out;
+}
+
+/* Estilo para el contador del carrito */
+#contador-carrito {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+/* Estilo del contenedor del carrito */
+.carrito-container {
+    position: fixed; 
+    top: 5px;
+    left: 10px;
+    width: 100vw; /* Ocupa el 100% del ancho de la pantalla */
+    height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
+    background-color: brown; /* Fondo oscuro y semi-transparente */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-sizing: border-box;
+    z-index: 1000; /* Asegura que el carrito esté sobre otros elementos */
+}
+
+.carrito-title {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.productos-carrito {
+    overflow-y: auto;
+    max-height: 60vh; /* Para que el carrito no se desborde si tiene muchos productos */
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.total-container {
+    margin-bottom: 20px;
+}
+
+.finalizar-compra {
+    width: 100%;
+}
+
+/* Estilo para el botón de cerrar */
+.cerrar-carrito {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.cerrar-carrito:hover {
+    background-color: darkred;
+}
+
+
+
+/* Estilo para el contador */
+#contador-carrito {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animación cuando el contador cambia */
+@keyframes contadorAnimacion {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Clase para aplicar la animación al contador */
+.animar-contador {
+    animation: contadorAnimacion 0.5s ease-in-out;
 }

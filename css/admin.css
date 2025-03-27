@@ -1,0 +1,238 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    top: 0;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+}
+
+header {
+    width: 100%;
+    height: 65px;
+    background-color: brown;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .lf {
+        button {
+            margin-left: 10px;
+            background-color: white;
+            color: brown;
+        }
+    }
+}
+
+main {
+    width: 100%;
+    height: 89%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    .tablas {
+        width: 90%;
+        height: 100%;
+        background-color: rgba(253, 172, 172, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .conttent_tables {
+            width: 90%;
+            height: 400px;
+            overflow-y: scroll;
+
+            .table {
+                thead {
+                    tr {
+                        background-color: brown;
+
+                        th {
+                            background-color: brown;
+                            color: white;
+                        }
+                    }
+                }
+
+                tbody {
+                    tr {
+                        td {
+                            transition: 1s;
+                        }
+
+                        td:hover {
+                            background-color: transparent;
+                            transition: 1s;
+                            color: brown;
+                        }
+                    }
+                }
+            }
+        }
+
+        .botones {
+            background-color: brown;
+            width: 95%;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 45px;
+            border-radius: 0px 0px 20px 20px;
+
+            .btn {
+                color: whitesmoke;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                transition: 0.5s;
+            }
+
+            .btn:hover {
+                background-color: white;
+                color: brown;
+                transition: 1s;
+            }
+
+        }
+    }
+
+    .usuarios {
+        width: 90%;
+        height: 100%;
+        background-color: rgba(253, 172, 172, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .conttent_usuarios {
+            width: 38%;
+            height: 95%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+
+        .botones {
+            background-color: brown;
+            width: 95%;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 45px;
+            border-radius: 0px 0px 20px 20px;
+
+            .btn {
+                color: whitesmoke;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                transition: 0.5s;
+            }
+
+            .btn:hover {
+                background-color: white;
+                color: brown;
+                transition: 1s;
+            }
+
+        }
+    }
+
+
+
+    .contadores {
+        width: 10%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .tablon {
+            width: 78%;
+            height: 23%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5px;
+            background-color: brown;
+            border: solid 2px brown;
+            border-radius: 20px;
+            transition: 1s;
+
+            .text {
+                color: white;
+                font-size: 17.5px;
+                height: 25%;
+                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            }
+
+            .cantidad {
+                h3 {
+                    color: white;
+                }
+            }
+        }
+
+        .tablon:hover {
+            background-color: white;
+            transition: 1s;
+            width: 85%;
+
+            .text {
+                color: brown;
+                font-size: 18.5px;
+            }
+
+            .cantidad {
+                h3 {
+                    color: brown;
+                    font-size: 35.5px;
+
+                }
+            }
+        }
+    }
+}
+
+.nav {
+    .nav-item {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border: solid 0.5px transparent;
+    }
+
+    .nav-item:hover {
+        border: solid 2.5px brown;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+}
+
+
+#loadingSpinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    z-index: 9999; /* Make sure the spinner appears above all other content */
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
+}
+
+.spinner-border.text-primary {
+    color: #007bff; /* Primary color */
+}

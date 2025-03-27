@@ -32,7 +32,8 @@ CREATE TABLE pedidos (
     fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     estado ENUM('pendiente', 'procesando', 'enviado', 'entregado', 'cancelado') DEFAULT 'pendiente',
     total DECIMAL(10, 2) NOT NULL,
-    direccion_envio VARCHAR(255) NOT NULL
+    direccion_envio VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
 CREATE TABLE detalles_pedido (

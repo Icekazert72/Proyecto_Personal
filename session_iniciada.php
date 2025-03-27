@@ -1,6 +1,9 @@
 <?php
 
 session_start();
+if (!$_SESSION['id'] && !$_SESSION['nombre']) {
+    header('Location: index.php');
+}
 
 ?>
 
@@ -12,7 +15,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nDONGz</title>
     <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/fontawesome.min.css">
     <link rel="stylesheet" href="css/sweetalert2.css">
     <link rel="stylesheet" href="css/styleform.css">
@@ -37,6 +40,17 @@ session_start();
 
             <div class="btn ini" id="btnModalPrefil" data-bs-toggle="modal" data-bs-target="#ModalUsuario"><a href="#"><i class="fa-regular fa-user"></i></a></div>
 
+            <div id="loadingSpinner" style="display: none;">
+                <div class="spinner-overlay">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <h1 class="logo">nDONGz</h1>
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="ms-3">Cerrando sesión...</p>
+                    </div>
+                </div>
+            </div>
             <script>
                 var btnProfil = document.querySelector('#btnModalPrefil');
                 btnProfil.addEventListener('click', (e) => {
@@ -45,17 +59,28 @@ session_start();
                 });
             </script>
 
-            <div class="carrito">
-                <div id="carrito" data-bs-toggle="modal" data-bs-target="#Modalcarrito" class="btn"><i class="fa-solid fa-cart-shopping"></i></div>
+            <!-- Zona del carrito (con diseño mejorado) -->
+            <div id="carrito" class="btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="contador-carrito">0</span> <!-- Contador de productos -->
             </div>
 
-            <script>
-                var btnCarrito = document.querySelector('#carrito');
-                btnCarrito.addEventListener('click', () => {
-                    console.log('modal carrito');
+            <div id="zona-carrito" class="carrito-container" style="display: none;">
+                <button id="cerrar-carrito" class="btn btn-danger cerrar-carrito">Cerrar</button>
+                <h2 class="carrito-title">Tu Carrito</h2>
+                <div id="productos-en-carrito" class="productos-carrito">
+                    <!-- Los productos seleccionados se mostrarán aquí -->
+                </div>
+                <div class="total-container">
+                    <p class="total-text">Total: $<span id="total-carrito">0.00</span></p>
+                </div>
+                <button id="finalizar-compra" class="btn btn-success finalizar-compra">Finalizar compra</button>
+            </div>
 
-                });
-            </script>
+
+
+
+
 
             <div class="ajustes">
                 <div class="btn"><i class="fa-solid fa-ellipsis-vertical"></i></div>
@@ -384,59 +409,8 @@ session_start();
             </div>
         </div>
 
-        <div class="modelos container mt-3">
-            <div class="imagen" id="producto" style="background-image: url('img/jjj.png');" data-id="1" data-nombre="Adidas" data-precio="50.00">
-                <div class="text">
-                    Adidas !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');" data-id="2" data-nombre="New Balance" data-precio="150.00">
-                <div class="text">
-                    New Balance !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    Nike !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    Under Armour !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    Jordan !
-                </div>
-            </div>
-        </div>
-        <div class="modelos container mt-3">
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    Adidas !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    New Balance !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    Nike !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    Under Armour !
-                </div>
-            </div>
-            <div class="imagen" style="background-image: url('img/jjj.png');">
-                <div class="text">
-                    Jordan !
-                </div>
-            </div>
+        <div class="row" id="productos-container">
+            <!-- Los productos se cargarán aquí dinámicamente -->
         </div>
 
         <div class="mapa mt-3 container">
@@ -582,23 +556,7 @@ session_start();
     </footer>
 
 
-    <div class="modal fade" id="Modalcarrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="flex-wrap: wrap; display:flex; gap: 20px;" id="carrito-contenido">
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="guardarCambios">Finalizar Compra</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="modal fade" id="ModalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content" style=" background-color: transparent;">
@@ -608,16 +566,18 @@ session_start();
                 <div class="modal-body">
                     <div class="card" style="width: 100%;">
                         <div class="card-header" style="display: flex; gap:10px;">
-                            <h3 style=" color:brown; font-family:fantasy;"><?php echo $_SESSION['nombre']?> </h3> <h3 style=" color:black; font-family:fantasy;"><?php echo $_SESSION['apellido']?> </h3>
+                            <h3 style=" color:brown; font-family:fantasy;"><?php echo $_SESSION['nombre'] ?> </h3>
+                            <h3 style=" color:black; font-family:fantasy;"><?php echo $_SESSION['apellido'] ?> </h3>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item" style=" font-family:fantasy;"><?php echo $_SESSION['email']?></li>
-                            <li class="list-group-item" style=" font-family:fantasy;"><?php echo $_SESSION['telefono']?></li>
-                            <li class="list-group-item" style=" font-family:fantasy;"><?php echo $_SESSION['direccion']?></li>
+                            <li class="list-group-item" style=" font-family:fantasy;"><?php echo $_SESSION['email'] ?></li>
+                            <li class="list-group-item" style=" font-family:fantasy;"><?php echo $_SESSION['telefono'] ?></li>
+                            <li class="list-group-item" style=" font-family:fantasy;"><?php echo $_SESSION['direccion'] ?></li>
                         </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" id="cerrar_Sesion" class="btn" style=" background-color:red;">Cerrar Sesion</button>
                     <button type="button" class="btn" style=" background-color:red;" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
@@ -627,7 +587,259 @@ session_start();
     <script src="js/bootstrap.min.js"></script>
     <script src="js/sweetalert2.js"></script>
     <script src="js/funciones.js"></script>
-    <script src="js/AddCarritoCompras.js"></script>
+    <!-- <script src="js/AddCarritoCompras.js"></script> -->
+    <script src="login/js/crerrar_sesion.js"></script>
+    <script>
+        class Producto {
+            constructor(id, nombre, descripcion, precio, stock, categoria, imagenUrl) {
+                this.id = id;
+                this.nombre = nombre;
+                this.descripcion = descripcion;
+                this.precio = parseFloat(precio) || 0;
+                this.stock = stock;
+                this.categoria = categoria;
+                this.imagenUrl = `admin/uploads/${imagenUrl}`; // La URL de la imagen
+            }
+
+            // Método para generar la tarjeta HTML de un producto
+            mostrarTarjeta() {
+                return `
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top" style="background-image: url('${this.imagenUrl}'); background-size: cover; background-position: center; height: 200px; overflow: hidden;">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${this.nombre}</h5>
+                        <p class="card-text">${this.descripcion}</p>
+                        <p class="card-text"><strong>Precio:</strong> $${this.precio.toFixed(2)}</p>
+                        <p class="card-text"><strong>Cantidad:</strong> ${this.stock}</p>
+                        <a href="#" class="btn btn-primary" data-id="${this.id}" data-nombre="${this.nombre}" data-precio="${this.precio}">Agregar al Carrito</a>
+                    </div>
+                </div>
+            </div>
+        `;
+            }
+        }
+
+        // Función para cargar los productos desde la base de datos
+        function cargarProductos() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'php/get_productos.php', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Parseamos la respuesta JSON
+                    const productos = JSON.parse(xhr.responseText);
+
+                    // Limpiamos el contenedor de productos
+                    const contenedor = document.getElementById('productos-container');
+                    contenedor.innerHTML = '';
+
+                    // Creamos y mostramos las tarjetas para cada producto
+                    productos.forEach(producto => {
+                        const prod = new Producto(producto.id, producto.nombre, producto.descripcion, producto.precio, producto.stock, producto.categoria, producto.imagen_url);
+                        contenedor.innerHTML += prod.mostrarTarjeta(); // Insertamos la tarjeta en el contenedor
+                    });
+
+                    // Configuramos los botones de agregar al carrito
+                    agregarAlCarrito();
+                } else {
+                    console.error('Error al cargar los productos.');
+                }
+            };
+            xhr.send();
+        }
+
+        // Función para agregar los productos al carrito
+        function agregarAlCarrito() {
+            document.querySelectorAll('a[data-id]').forEach(boton => {
+                boton.addEventListener('click', (e) => {
+                    e.preventDefault(); // Evitar la acción predeterminada
+
+                    const id = e.target.getAttribute('data-id');
+                    const nombre = e.target.getAttribute('data-nombre');
+                    const precio = parseFloat(e.target.getAttribute('data-precio'));
+
+                    // Agregar producto al carrito
+                    if (carrito.has(id)) {
+                        const producto = carrito.get(id);
+                        producto.cantidad++; // Si ya existe, aumentamos la cantidad
+                        carrito.set(id, producto);
+                    } else {
+                        carrito.set(id, {
+                            id,
+                            nombre,
+                            precio,
+                            cantidad: 1
+                        }); // Si no existe, lo agregamos
+                    }
+
+                    // Actualizar el carrito en el DOM
+                    actualizarCarrito();
+
+                    // Usar SweetAlert para mostrar el mensaje
+                    Swal.fire({
+                        title: 'Producto agregado al carrito',
+                        text: `${nombre} - $${precio.toFixed(2)}`,
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    });
+                });
+            });
+        }
+
+        // Estructura para almacenar el carrito
+        let carrito = new Map(); // Usamos un Map para manejar el carrito de forma eficiente
+
+        // Función para actualizar la vista del carrito
+        function actualizarCarrito() {
+            const carritoContainer = document.getElementById('productos-en-carrito');
+            carritoContainer.innerHTML = ''; // Limpiar contenido previo
+            let total = 0;
+
+            // Recorrer los productos en el carrito
+            carrito.forEach(producto => {
+                total += producto.precio * producto.cantidad;
+
+                // Crear HTML para cada producto
+                const productoHTML = `
+            <div class="producto-carrito d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+                <div>
+                    <p class="mb-0"><strong>${producto.nombre}</strong></p>
+                    <p class="mb-0">Precio: $${producto.precio.toFixed(2)}</p>
+                    <p class="mb-0">Cantidad: ${producto.cantidad}</p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-sm btn-success me-2" onclick="incrementarCantidad(${producto.id})">+</button>
+                    <button class="btn btn-sm btn-warning me-2" onclick="reducirCantidad(${producto.id})">-</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminarDelCarrito(${producto.id})">Eliminar</button>
+                </div>
+            </div>`;
+
+                carritoContainer.innerHTML += productoHTML; // Agregar al carrito visualmente
+            });
+
+            // Actualizar el total
+            document.getElementById('total-carrito').innerText = total.toFixed(2);
+
+            // Mostrar el carrito si tiene productos
+            document.getElementById('zona-carrito').style.display = carrito.size > 0 ? 'block' : 'none';
+        }
+
+        // Función para incrementar la cantidad de un producto en el carrito
+        function incrementarCantidad(id) {
+            if (carrito.has(id)) {
+                const producto = carrito.get(id);
+                producto.cantidad++; // Aumentamos la cantidad en 1
+                carrito.set(id, producto); // Actualizamos el producto en el carrito
+                actualizarCarrito(); // Actualizamos la vista del carrito
+            }
+        }
+
+        // Función para reducir la cantidad de un producto en el carrito
+        function reducirCantidad(id) {
+            if (carrito.has(id)) {
+                const producto = carrito.get(id);
+                if (producto.cantidad > 1) {
+                    producto.cantidad--; // Restamos 1 a la cantidad
+                    carrito.set(id, producto); // Actualizamos el producto en el carrito
+                } else {
+                    carrito.delete(id); // Si la cantidad es 1, eliminamos el producto del carrito
+                }
+                actualizarCarrito(); // Actualizamos la vista del carrito
+            }
+        }
+
+        // Función para eliminar un producto del carrito
+        function eliminarDelCarrito(id) {
+            if (carrito.has(id)) {
+                carrito.delete(id); // Eliminamos el producto del carrito
+                actualizarCarrito(); // Actualizamos la vista del carrito
+            }
+        }
+
+
+
+        document.getElementById('finalizar-compra').addEventListener('click', function() {
+            // Verificar que el carrito no está vacío
+            if (carrito.size === 0) {
+                Swal.fire({
+                    title: 'Carrito vacío',
+                    text: 'No hay productos en el carrito para realizar el pedido.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            // Recoger los productos y calcular el total
+            let productos = [];
+            let total = 0;
+            carrito.forEach(producto => {
+                productos.push({
+                    id_producto: producto.id,
+                    cantidad: producto.cantidad,
+                    precio_unitario: producto.precio,
+                    subtotal: producto.precio * producto.cantidad
+                });
+                total += producto.precio * producto.cantidad;
+            });
+
+            // Crear el objeto para enviar los datos al servidor
+            let data = {
+                id_usuario: 1, // Esto se debería obtener desde la sesión en el backend
+                total: total.toFixed(2),
+                productos: productos
+            };
+
+            // Enviar los datos al servidor usando XMLHttpRequest
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', 'php/set_pedido.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onload = function() {
+                try {
+                    if (xhr.status === 200) {
+                        // Attempt to parse the response as JSON
+                        let response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Compra finalizada',
+                                text: 'Tu pedido ha sido realizado exitosamente.',
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            });
+                            carrito.clear();
+                            actualizarCarrito();
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message || 'Hubo un error al procesar el pedido.',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    } else {
+                        throw new Error('Error en la solicitud al servidor.');
+                    }
+                } catch (error) {
+                    console.error('Error al procesar la respuesta:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'El servidor devolvió una respuesta inesperada. Intenta nuevamente.'+xhr.responseText,
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            };
+
+            xhr.send(JSON.stringify(data)); // Enviar los datos al servidor
+        });
+
+
+
+        // Cargar productos al cargar la página
+        window.onload = cargarProductos;
+    </script>
 </body>
 
 </html>
